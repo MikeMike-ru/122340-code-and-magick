@@ -271,7 +271,7 @@
      */
     level: INITIAL_LEVEL,
 
-    CreateWindow: function() {
+    createWindow: function() {
 
       this.ctx.beginPath();
       this.ctx.moveTo(300, 25);
@@ -409,21 +409,21 @@
       switch (this.state.currentStatus) {
         case Verdict.WIN:
 
-          this.CreateWindow();
+          this.createWindow();
 
           var positionT = 65;
           var positionL = 320;
           var WinnerText = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
 
-          this.ctx.fillStyle = "#000";
+          this.ctx.fillStyle = '#000';
           for (var i = 0; i <= WinnerText.length; i++) {
-            if (i == 0) {
+            if (i === 0) {
               this.ctx.fillText(WinnerText[i], positionL, positionT);
             }
-            else if (i == 1) {
+            else if (i === 1) {
               this.ctx.fillText(WinnerText[i], positionL, positionT + 25);
             }
-            if (i == 2) {
+            if (i === 2) {
               this.ctx.fillText(WinnerText[i], positionL, positionT + 50);
             }
           }
@@ -431,19 +431,19 @@
           break;
         case Verdict.FAIL:
 
-          this.CreateWindow();
+          this.createWindow();
 
 
           break;
         case Verdict.PAUSE:
 
-          this.CreateWindow();
+          this.createWindow();
 
 
           break;
         case Verdict.INTRO:
 
-          this.CreateWindow();
+          this.createWindow();
 
 
           break;
