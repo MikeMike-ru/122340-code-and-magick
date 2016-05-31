@@ -418,15 +418,10 @@
           this.ctx.fillStyle = '#000';
           for (var i = 0; i <= WinnerText.length; i++) {
             if (i === 0) {
-
               this.ctx.fillText(WinnerText[i], positionL, positionT);
-
             } else if (i === 1) {
-
               this.ctx.fillText(WinnerText[i], positionL, positionT + 25);
-              
             } if (i === 2) {
-
               this.ctx.fillText(WinnerText[i], positionL, positionT + 50);
             }
           }
