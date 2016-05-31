@@ -252,6 +252,12 @@
     this.container.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext('2d');
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.font = '16px PT Mono';
+
+
+
+
 
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
@@ -265,6 +271,48 @@
      */
     level: INITIAL_LEVEL,
 
+    CreateWindow: function() {
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(300, 25);
+    this.ctx.lineTo(290, 175);
+    this.ctx.lineTo(610, 155);
+    this.ctx.lineTo(610, 35);
+    this.ctx.lineTo(300, 35);
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+    this.ctx.fill();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(300, 25);
+    this.ctx.lineTo(280, 165);
+    this.ctx.lineTo(600, 145);
+    this.ctx.lineTo(600, 25);
+    this.ctx.lineTo(300, 25);
+    this.ctx.fillStyle = "#fff";
+    this.ctx.fill();
+
+  },
+
+    /**CreateText: function(GreetingsText) {
+      var positionT = 65;
+      var positionL = 310;
+      var text = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
+
+
+      this.ctx.fillStyle = "#000";
+      for (var i = 0; i <= GreetingsText.length; i++) {
+        if (i == 0) {
+          this.ctx.fillText(GreetingsText[i], positionL, positionT);
+        }
+        else if (i == 1) {
+          this.ctx.fillText(GreetingsText[i], positionL, positionT + 25);
+        }
+        if (i == 2) {
+          this.ctx.fillText(GreetingsText[i], positionL, positionT + 50);
+        }
+      }
+    },
+     */
     /**
      * Состояние игры. Описывает местоположение всех объектов на игровой карте
      * и время проведенное на уровне и в игре.
@@ -380,16 +428,44 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+
+          this.CreateWindow();
+
+          var positionT = 65;
+          var positionL = 320;
+          var WinnerText = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
+
+          this.ctx.fillStyle = "#000";
+          for (var i = 0; i <= WinnerText.length; i++) {
+            if (i == 0) {
+              this.ctx.fillText(WinnerText[i], positionL, positionT);
+            }
+            else if (i == 1) {
+              this.ctx.fillText(WinnerText[i], positionL, positionT + 25);
+            }
+            if (i == 2) {
+              this.ctx.fillText(WinnerText[i], positionL, positionT + 50);
+            }
+          }
+
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+
+          this.CreateWindow();
+
+
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+
+          this.CreateWindow();
+
+
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+
+          this.CreateWindow();
+
+
           break;
       }
     },
