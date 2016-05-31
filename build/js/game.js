@@ -422,8 +422,7 @@
             }
             else if (i === 1) {
               this.ctx.fillText(WinnerText[i], positionL, positionT + 25);
-            }
-            if (i === 2) {
+            } if (i === 2) {
               this.ctx.fillText(WinnerText[i], positionL, positionT + 50);
             }
           }
