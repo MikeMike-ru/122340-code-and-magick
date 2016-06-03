@@ -264,6 +264,11 @@
     this._pauseListener = this._pauseListener.bind(this);
   };
 
+  var winnerText = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
+  var failText = ['Ты проиграл', 'и тебе придется уйти', 'Пока.'];
+  var pauseText = ['Всего лишь пауза', 'Просто нажми пробел', 'и можешь продолжать'];
+  var introText = ['Добро пожаловать!', 'Чтобы начать игру', 'просто нажми пробел :)'];
+
   Game.prototype = {
     /**
      * Текущий уровень игры.
@@ -272,7 +277,6 @@
     level: INITIAL_LEVEL,
 
     createWindow: function() {
-
       this.ctx.beginPath();
       this.ctx.moveTo(300, 25);
       this.ctx.lineTo(290, 175);
@@ -281,7 +285,6 @@
       this.ctx.lineTo(300, 35);
       this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       this.ctx.fill();
-
       this.ctx.beginPath();
       this.ctx.moveTo(300, 25);
       this.ctx.lineTo(280, 165);
@@ -290,7 +293,17 @@
       this.ctx.lineTo(300, 25);
       this.ctx.fillStyle = '#fff';
       this.ctx.fill();
+      this.ctx.fillStyle = '#000';
+    },
 
+    createText: function(text) {
+      var positionT = 65;
+      var positionL = 320;
+      var widthOfWindow = 300;
+      var i = 0;
+      for (i; i < text.length; i++) {
+        this.ctx.fillText(text[i], positionL, positionT + 25 * i);
+      }
     },
 
     /**
@@ -408,42 +421,20 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-
           this.createWindow();
-
-          var positionT = 65;
-          var positionL = 320;
-          var WinnerText = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
-
-          this.ctx.fillStyle = '#000';
-          for (var i = 0; i <= WinnerText.length; i++) {
-            if (i === 0) {
-              this.ctx.fillText(WinnerText[i], positionL, positionT);
-            } else if (i === 1) {
-              this.ctx.fillText(WinnerText[i], positionL, positionT + 25);
-            } if (i === 2) {
-              this.ctx.fillText(WinnerText[i], positionL, positionT + 50);
-            }
-          }
-
+          this.createText(winnerText);
           break;
         case Verdict.FAIL:
-
           this.createWindow();
-
-
+          this.createText(failText);
           break;
         case Verdict.PAUSE:
-
           this.createWindow();
-
-
+          this.createText(pauseText);
           break;
         case Verdict.INTRO:
-
           this.createWindow();
-
-
+          this.createText(introText);
           break;
       }
     },
