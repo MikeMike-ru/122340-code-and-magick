@@ -252,11 +252,17 @@
     this.container.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext('2d');
-
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.font = '16px PT Mono';
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
   };
+
+  var winnerText = ['Ура!', 'Ты победил!', 'Теперь вали отсюда :C'];
+  var failText = ['Ты проиграл', 'и тебе придется уйти', 'Пока.'];
+  var pauseText = ['Всего лишь пауза', 'Просто нажми пробел', 'и можешь продолжать'];
+  var introText = ['Добро пожаловать!', 'Чтобы начать игру', 'просто нажми пробел :)'];
 
   Game.prototype = {
     /**
@@ -264,6 +270,35 @@
      * @type {Level}
      */
     level: INITIAL_LEVEL,
+
+    createWindow: function() {
+      this.ctx.beginPath();
+      this.ctx.moveTo(300, 25);
+      this.ctx.lineTo(290, 175);
+      this.ctx.lineTo(610, 155);
+      this.ctx.lineTo(610, 35);
+      this.ctx.lineTo(300, 35);
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.fill();
+      this.ctx.beginPath();
+      this.ctx.moveTo(300, 25);
+      this.ctx.lineTo(280, 165);
+      this.ctx.lineTo(600, 145);
+      this.ctx.lineTo(600, 25);
+      this.ctx.lineTo(300, 25);
+      this.ctx.fillStyle = '#fff';
+      this.ctx.fill();
+      this.ctx.fillStyle = '#000';
+    },
+
+    createText: function(text) {
+      var positionT = 65;
+      var positionL = 320;
+      var i = 0;
+      for (i; i < text.length; i++) {
+        this.ctx.fillText(text[i], positionL, positionT + 25 * i);
+      }
+    },
 
     /**
      * Состояние игры. Описывает местоположение всех объектов на игровой карте
@@ -380,16 +415,20 @@
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this.createWindow();
+          this.createText(winnerText);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this.createWindow();
+          this.createText(failText);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this.createWindow();
+          this.createText(pauseText);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this.createWindow();
+          this.createText(introText);
           break;
       }
     },
