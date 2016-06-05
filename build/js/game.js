@@ -254,11 +254,6 @@
     this.ctx = this.canvas.getContext('2d');
     this.ctx.fillStyle = '#ffffff';
     this.ctx.font = '16px PT Mono';
-
-
-
-
-
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
@@ -299,7 +294,6 @@
     createText: function(text) {
       var positionT = 65;
       var positionL = 320;
-      var widthOfWindow = 300;
       var i = 0;
       for (i; i < text.length; i++) {
         this.ctx.fillText(text[i], positionL, positionT + 25 * i);
