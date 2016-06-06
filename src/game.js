@@ -292,11 +292,8 @@
     },
 
     createText: function(text) {
-      var positionT = 65;
-      var positionL = 320;
-      var i = 0;
-      for (i; i < text.length; i++) {
-        this.ctx.fillText(text[i], positionL, positionT + 25 * i);
+      for (var i = 0; i < text.length; i++) {
+        this.ctx.fillText(text[i], 320, 65 + 25 * i);
       }
     },
 
