@@ -14,72 +14,37 @@
   var submitButton = document.querySelector('.review-submit');
   formName.setAttribute('required', 'required');
 
-  var setDisabled = function() {
-    if (formText.hasAttribute('required') && formText.value) {
-      submitButton.removeAttribute('disabled');
-    } else if (formText.value) {
-      submitButton.removeAttribute('disabled');
-    } else {
-      submitButton.setAttribute('disabled', 'disabled');
-    }
-    if (formName.value) {
-      submitButton.removeAttribute('disabled');
-    } else {
-      submitButton.setAttribute('disabled', 'disabled');
-    }
-  };
-
-  var setInvisible = function() {
-    if (formName.value && formText.value) {
-      labelBoth.classList.add('invisible');
-      submitButton.removeAttribute('disabled');
-    } else {
-      labelBoth.classList.remove('invisible');
-      submitButton.setAttribute('disabled', 'disabled');
-    }
-    if (formName.value) {
-      labelName.classList.add('invisible');
-    } else {
-      labelName.classList.remove('invisible');
-    }
-    if (formText.value) {
-      labelText.classList.add('invisible');
-    } else {
-      labelText.classList.remove('invisible');
-    }
+  var formValidation = function() {
+    var isNameValid = formName.value.length !== 0;
+    var isTextValid = formText.value.length !== 0 || formMarks.value > 2;
+    labelBoth.classList.toggle('invisible', isNameValid && isTextValid);
+    labelName.classList.toggle('invisible', isNameValid);
+    labelText.classList.toggle('invisible', isTextValid);
+    submitButton.disabled = !(isNameValid && isTextValid);
   };
 
   var setRequired = function() {
-    for (var i = 0; i < formMarks.length; i++) {
-      if (formMarks[i].checked) {
-        if (formMarks[i].value <= 2) {
-          formText.setAttribute('required', 'required');
-        } else {
-          formText.removeAttribute('required');
-        }
-      }
+    if (formMarks.value < 3) {
+      formText.setAttribute('required', 'required');
+    } else {
+      formText.removeAttribute('required');
     }
   };
 
   for (var i = 0; i < formMarks.length; i++) {
     formMarks[i].onchange = function() {
       setRequired();
-      setDisabled();
+      formValidation();
     };
   }
 
   formName.oninput = function() {
-    setInvisible();
-    setDisabled();
+    formValidation();
   };
 
   formText.oninput = function() {
-    setInvisible();
-    setDisabled();
+    formValidation();
   };
-
-  setInvisible();
-  setDisabled();
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -90,4 +55,6 @@
     evt.preventDefault();
     formContainer.classList.add('invisible');
   };
+
+  formValidation();
 })();
