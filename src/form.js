@@ -32,7 +32,6 @@
 
   var result = calculateExpire();
   var cookieExpire = Math.ceil(result / 1000 / 60 / 60 / 24);
-  console.log(cookieExpire);
 
   var formValidation = function() {
     var isNameValid = formName.value.length !== 0;
