@@ -12,7 +12,27 @@
   var labelName = labelBoth.querySelector('.review-fields-name');
   var labelText = labelBoth.querySelector('.review-fields-text');
   var submitButton = document.querySelector('.review-submit');
+  var browserCookies = require('browser-cookies');
   formName.setAttribute('required', 'required');
+  formName.value = browserCookies.get('name');
+  formMarks.value = browserCookies.get('marks');
+
+  var calculateExpire = function() {
+    var currentDate = new Date();
+    var getCurrentYear = currentDate.getFullYear();
+    var birthDate = new Date(getCurrentYear, 8, 20);
+    var minusOneYear = new Date(getCurrentYear - 1, 8, 20);
+    if (currentDate > birthDate) {
+      var a = birthDate - currentDate;
+    } else {
+      var b = currentDate - minusOneYear;
+    }
+    return(a || b);
+  };
+
+  var result = calculateExpire();
+  var cookieExpire = Math.ceil(result / 1000 / 60 / 60 / 24);
+  console.log(cookieExpire);
 
   var formValidation = function() {
     var isNameValid = formName.value.length !== 0;
@@ -44,6 +64,12 @@
 
   formText.oninput = function() {
     formValidation();
+  };
+
+  reviewForm.onsubmit = function() {
+    browserCookies.set('name', formName.value, {expires: cookieExpire});
+    browserCookies.set('marks', formMarks.value, {expires: cookieExpire});
+    reviewForm.submit();
   };
 
   formOpenButton.onclick = function(evt) {
