@@ -22,12 +22,11 @@
     var getCurrentYear = currentDate.getFullYear();
     var birthDate = new Date(getCurrentYear, 8, 20);
     var minusOneYear = new Date(getCurrentYear - 1, 8, 20);
+    var a = currentDate - minusOneYear;
     if (currentDate > birthDate) {
-      var a = birthDate - currentDate;
-    } else {
-      var b = currentDate - minusOneYear;
+      a = birthDate - currentDate;
     }
-    return(a || b);
+    return a;
   };
 
   var result = calculateExpire();
