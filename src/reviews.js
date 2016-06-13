@@ -10,8 +10,11 @@ var getReview = function(data, container) {
   element.querySelector('.review-text').textContent = data.description;
 
   var authorImage = new Image();
+
   authorImage.onload = function() {
     element.querySelector('.review-author').src = data.author.picture;
+    element.querySelector('.review-author').width = '124';
+    element.querySelector('.review-author').height = '124';
   };
 
   authorImage.onerror = function() {
