@@ -21,9 +21,8 @@ if ('content' in reviewTemplate) {
 
 invisibleFilter.classList.add('invisible');
 
-var getReview = function(data, container) {
+var getReview = function(data) {
   var element = elementToClone.cloneNode(true);
-  container.appendChild(element);
   element.querySelector('.review-text').textContent = data.description;
   element.querySelector('.review-rating').classList.add(starsArray[+data.rating - 1]);
 
@@ -42,11 +41,11 @@ var getReview = function(data, container) {
 
   authorImage.src = data.author.picture;
 
-  return element;
+  reviewsContainer.appendChild(element);
 };
 
 window.reviews.forEach(function(review) {
-  getReview(review, reviewsContainer);
+  getReview(review);
 });
 
 invisibleFilter.classList.remove('invisible');
