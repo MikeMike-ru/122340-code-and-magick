@@ -3,6 +3,13 @@
 var invisibleFilter = document.querySelector('.reviews-filter');
 var reviewTemplate = document.getElementById('review-template');
 var reviewsContainer = document.querySelector('.reviews-list');
+var starsArray = [
+  'review-rating-one',
+  'review-rating-two',
+  'review-rating-three',
+  'review-rating-four',
+  'review-rating-five'
+];
 var elementToClone;
 
 if ('content' in reviewTemplate) {
@@ -18,13 +25,15 @@ var getReview = function(data, container) {
   var element = elementToClone.cloneNode(true);
   container.appendChild(element);
   element.querySelector('.review-text').textContent = data.description;
+  element.querySelector('.review-rating').classList.add(starsArray[+data.rating - 1]);
 
   var authorImage = new Image();
 
   authorImage.onload = function() {
-    element.querySelector('.review-author').src = data.author.picture;
-    element.querySelector('.review-author').width = '124';
-    element.querySelector('.review-author').height = '124';
+    var authorBoth = element.querySelector('.review-author');
+    authorBoth.src = data.author.picture;
+    authorBoth.width = '124';
+    authorBoth.height = '124';
   };
 
   authorImage.onerror = function() {
