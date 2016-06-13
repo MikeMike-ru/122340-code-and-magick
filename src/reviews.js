@@ -1,7 +1,17 @@
+'use strict';
+
 var invisibleFilter = document.querySelector('.reviews-filter');
 var reviewTemplate = document.getElementById('review-template');
 var reviewsContainer = document.querySelector('.reviews-list');
-var elementToClone = reviewTemplate.content.querySelector('.review');
+var elementToClone;
+
+if ('content' in reviewTemplate) {
+  elementToClone = reviewTemplate.content.querySelector('.review');
+} else {
+  elementToClone = reviewTemplate.querySelector('.review');
+  reviewTemplate.classList.add('invisible');
+}
+
 invisibleFilter.classList.add('invisible');
 
 var getReview = function(data, container) {
@@ -27,7 +37,7 @@ var getReview = function(data, container) {
 };
 
 window.reviews.forEach(function(review) {
-  getReview(review, reviewsContainer)
+  getReview(review, reviewsContainer);
 });
 
 invisibleFilter.classList.remove('invisible');
