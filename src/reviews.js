@@ -1,10 +1,10 @@
 'use strict';
 
 var reviews = [];
-var invisibleFilter = document.querySelector('.reviews-filter');
 var reviewTemplate = document.getElementById('review-template');
 var reviewBlock = document.querySelector('.reviews');
 var reviewsContainer = document.querySelector('.reviews-list');
+var filtersContainer = document.querySelector('.reviews-filter');
 var starsArray = [
   'review-rating-one',
   'review-rating-two',
@@ -22,7 +22,7 @@ if ('content' in reviewTemplate) {
   reviewTemplate.classList.add('invisible');
 }
 
-invisibleFilter.classList.add('invisible');
+filtersContainer.classList.add('invisible');
 
 var getReviewElement = function(data) {
   var element = elementToClone.cloneNode(true);
@@ -69,19 +69,58 @@ var getReviews = function(callback) {
   xhr.send();
 };
 
-var renderReviews = function(loadedReviews) {
-  reviews = loadedReviews;
+var getFilteredReviews = function(filter) {
+  var reviewsToFilter = reviews.slice(0);
+
+  switch (filter) {
+    case 'reviews-all':
+      reviewsToFilter = reviews.slice(0);
+      break;
+    case 'reviews-recent':
+
+      break;
+    case 'reviews-good':
+
+      break;
+    case 'reviews-bad':
+
+      break;
+    case 'reviews-popular':
+
+      break;
+  }
+
+  return reviewsToFilter;
+};
+
+var renderReviews = function(reviews) {
+  reviewsContainer.innerHTML = '';
   reviews.forEach(function(review) {
     getReviewElement(review);
   });
 };
 
-var loadReviewsCallback = function(reviewsList) {
-  renderReviews(reviewsList);
+var setFilterEnabled = function(filter) {
+  var filteredReviews = getFilteredReviews(filter);
+  renderReviews(filteredReviews);
 };
 
-getReviews(loadReviewsCallback);
+var setFiltrationEnabled = function() {
+  var filters = filtersContainer.reviews;
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].onclick = function() {
+      setFilterEnabled(this.id);
+      console.log(this.id);
+    };
+  }
+};
 
-invisibleFilter.classList.remove('invisible');
+getReviews(function(loadedReviews) {
+  reviews = loadedReviews;
+  setFiltrationEnabled();
+  renderReviews(reviews);
+});
+
+filtersContainer.classList.remove('invisible');
 
 
