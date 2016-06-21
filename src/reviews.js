@@ -39,7 +39,7 @@ var getReviewElement = function(data) {
   };
 
   authorImage.onerror = function() {
-    element.classList.add('review-load-failure');
+    element.classList.add('.review-load-failure');
   };
 
   authorImage.src = data.author.picture;
@@ -51,18 +51,23 @@ var getReviews = function(callback) {
   var xhr = new XMLHttpRequest();
 
   xhr.onprogress = function() {
-    reviewBlock.classList.add('reviews-list-loading');
+    reviewBlock.classList.add('.reviews-list-loading');
   };
 
   xhr.onload = function(evt) {
-    reviewBlock.classList.remove('reviews-list-loading');
+    reviewBlock.classList.remove('.reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
   };
 
   xhr.onerror = function() {
-    reviewBlock.classList.remove('reviews-list-loading');
-    reviewBlock.classList.add('reviews-load-failure');
+    reviewBlock.classList.remove('.reviews-list-loading');
+    reviewBlock.classList.add('.reviews-load-failure');
+  };
+
+  xhr.timeout = 10000;
+  xhr.ontimeout = function() {
+    console.warn('Нет ответа от сервера, попробуйте снова.');
   };
 
   xhr.open('GET', REVIEWS_URL);
@@ -80,7 +85,11 @@ var getFilteredReviews = function(filter) {
 
       break;
     case 'reviews-good':
-
+      reviewsToFilter = reviewsToFilter.filter(function(review) {
+        return review.rating > 2;
+      }).sort(function(a, b) {
+      return b.rating - a.rating;
+    });
       break;
     case 'reviews-bad':
 
@@ -110,7 +119,6 @@ var setFiltrationEnabled = function() {
   for (var i = 0; i < filters.length; i++) {
     filters[i].onclick = function() {
       setFilterEnabled(this.id);
-      console.log(this.id);
     };
   }
 };
