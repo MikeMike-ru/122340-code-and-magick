@@ -23,6 +23,7 @@ if ('content' in reviewTemplate) {
 }
 
 filtersContainer.classList.add('invisible');
+reviewBlock.classList.add('reviews-list-loading');
 
 var getReviewElement = function(data) {
   var element = elementToClone.cloneNode(true);
@@ -55,10 +56,6 @@ var onEventFunction = function() {
 var getReviews = function(callback) {
   var xhr = new XMLHttpRequest();
 
-  xhr.onprogress = function() {
-    reviewBlock.classList.add('reviews-list-loading');
-  };
-
   xhr.onload = function(evt) {
     reviewBlock.classList.remove('reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
@@ -72,7 +69,6 @@ var getReviews = function(callback) {
   xhr.timeout = 10000;
   xhr.ontimeout = function() {
     onEventFunction();
-    console.warn('Нет ответа от сервера, попробуйте снова.');
   };
 
   xhr.open('GET', REVIEWS_URL);
@@ -134,5 +130,6 @@ getReviews(function(loadedReviews) {
 });
 
 filtersContainer.classList.remove('invisible');
+reviewBlock.classList.remove('reviews-list-loading');
 
 
