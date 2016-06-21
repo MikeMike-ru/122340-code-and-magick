@@ -39,7 +39,7 @@ var getReviewElement = function(data) {
   };
 
   authorImage.onerror = function() {
-    element.classList.add('.review-load-failure');
+    element.classList.add('review-load-failure');
   };
 
   authorImage.src = data.author.picture;
@@ -47,26 +47,31 @@ var getReviewElement = function(data) {
   reviewsContainer.appendChild(element);
 };
 
+var onEventFunction = function() {
+  reviewBlock.classList.remove('reviews-list-loading');
+  reviewBlock.classList.add('reviews-load-failure');
+};
+
 var getReviews = function(callback) {
   var xhr = new XMLHttpRequest();
 
   xhr.onprogress = function() {
-    reviewBlock.classList.add('.reviews-list-loading');
+    reviewBlock.classList.add('reviews-list-loading');
   };
 
   xhr.onload = function(evt) {
-    reviewBlock.classList.remove('.reviews-list-loading');
+    reviewBlock.classList.remove('reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
   };
 
   xhr.onerror = function() {
-    reviewBlock.classList.remove('.reviews-list-loading');
-    reviewBlock.classList.add('.reviews-load-failure');
+    onEventFunction();
   };
 
   xhr.timeout = 10000;
   xhr.ontimeout = function() {
+    onEventFunction();
     console.warn('Нет ответа от сервера, попробуйте снова.');
   };
 
@@ -98,7 +103,6 @@ var getFilteredReviews = function(filter) {
 
       break;
   }
-
   return reviewsToFilter;
 };
 
