@@ -116,7 +116,10 @@ var getFilteredReviews = function(filter) {
 };
 
 var nothingFoundTemplate = function() {
-  console.log('Nothing in here');
+  var nothingInHere = document.createElement('p');
+  nothingInHere.style.setProperty('margin-left', '110px');
+  nothingInHere.textContent = 'К сожалению, нет подходящих отзывов.';
+  reviewsContainer.appendChild(nothingInHere);
 };
 
 var renderReviews = function(reviewsList) {
@@ -124,6 +127,9 @@ var renderReviews = function(reviewsList) {
   reviewsList.forEach(function(review) {
     getReviewElement(review);
   });
+  if (reviewsList.length === 0) {
+    nothingFoundTemplate();
+  }
 };
 
 var setFilterEnabled = function(filter) {
@@ -144,9 +150,6 @@ getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFiltrationEnabled();
   renderReviews(reviews);
-  if (reviews.length) {
-    nothingFoundTemplate();
-  }
 });
 
 filtersContainer.classList.remove('invisible');
