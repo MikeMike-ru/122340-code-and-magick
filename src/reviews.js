@@ -85,7 +85,7 @@ var getFilteredReviews = function(filter) {
       break;
     case 'reviews-recent':
       reviewsToFilter = reviewsToFilter.filter(function(review) {
-      var fourDays = Date.now() - 4 * 24 * 60 * 60 * 1000;
+        var fourDays = Date.now() - 4 * 24 * 60 * 60 * 1000;
         var reviewDate = Date.parse(review.date);
         return reviewDate > fourDays && Date.now() > reviewDate;
       }).sort(function(a, b) {
@@ -111,16 +111,17 @@ var getFilteredReviews = function(filter) {
         return b.review_usefulness - a.review_usefulness;
       });
       break;
-    default:
-      alert('К сожалению, ни один результат не подходит.');
-      break;
   }
   return reviewsToFilter;
 };
 
-var renderReviews = function(reviews) {
+var nothingFoundTemplate = function() {
+  console.log('Nothing in here');
+};
+
+var renderReviews = function(reviewsList) {
   reviewsContainer.innerHTML = '';
-  reviews.forEach(function(review) {
+  reviewsList.forEach(function(review) {
     getReviewElement(review);
   });
 };
@@ -143,6 +144,9 @@ getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFiltrationEnabled();
   renderReviews(reviews);
+  if (reviews.length) {
+    nothingFoundTemplate();
+  }
 });
 
 filtersContainer.classList.remove('invisible');
