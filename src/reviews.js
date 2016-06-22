@@ -85,8 +85,9 @@ var getFilteredReviews = function(filter) {
       break;
     case 'reviews-recent':
       reviewsToFilter = reviewsToFilter.filter(function(review) {
-      var FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
-        return Date.now() - FOUR_DAYS < Date.parse(review.date);
+      var fourDays = Date.now() - 4 * 24 * 60 * 60 * 1000;
+        var reviewDate = Date.parse(review.date);
+        return reviewDate > fourDays && Date.now() > reviewDate;
       }).sort(function(a, b) {
         return Date.parse(b.date) - Date.parse(a.date);
       });
