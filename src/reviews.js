@@ -35,6 +35,7 @@ var getReviewElement = function(data) {
   authorImage.onload = function() {
     var authorBoth = element.querySelector('.review-author');
     authorBoth.src = data.author.picture;
+    authorBoth.alt = data.author.name;
     authorBoth.width = '124';
     authorBoth.height = '124';
   };
@@ -83,20 +84,34 @@ var getFilteredReviews = function(filter) {
       reviewsToFilter = reviews.slice(0);
       break;
     case 'reviews-recent':
-
+      reviewsToFilter = reviewsToFilter.filter(function(review) {
+      var FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
+        return Date.now() - FOUR_DAYS < Date.parse(review.date);
+      }).sort(function(a, b) {
+        return Date.parse(b.date) - Date.parse(a.date);
+      });
       break;
     case 'reviews-good':
       reviewsToFilter = reviewsToFilter.filter(function(review) {
         return review.rating > 2;
       }).sort(function(a, b) {
-      return b.rating - a.rating;
-    });
+        return b.rating - a.rating;
+      });
       break;
     case 'reviews-bad':
-
+      reviewsToFilter = reviewsToFilter.filter(function(review) {
+        return review.rating < 3;
+      }).sort(function(a, b) {
+        return a.rating - b.rating;
+      });
       break;
     case 'reviews-popular':
-
+      reviewsToFilter = reviewsToFilter.sort(function(a, b) {
+        return b.review_usefulness - a.review_usefulness;
+      });
+      break;
+    default:
+      alert('К сожалению, ни один результат не подходит.');
       break;
   }
   return reviewsToFilter;
