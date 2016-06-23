@@ -25,7 +25,7 @@ if ('content' in reviewTemplate) {
 filtersContainer.classList.add('invisible');
 reviewBlock.classList.add('reviews-list-loading');
 
-var getReviewElement = function(data) {
+var createReviewElement = function(data) {
   var element = elementToClone.cloneNode(true);
   element.querySelector('.review-text').textContent = data.description;
   element.querySelector('.review-rating').classList.add(starsArray[+data.rating - 1]);
@@ -125,7 +125,7 @@ var nothingFoundTemplate = function() {
 var renderReviews = function(reviewsList) {
   reviewsContainer.innerHTML = '';
   reviewsList.forEach(function(review) {
-    getReviewElement(review);
+    createReviewElement(review);
   });
   if (reviewsList.length === 0) {
     nothingFoundTemplate();
