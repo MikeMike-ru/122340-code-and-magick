@@ -18,6 +18,7 @@ var elementToClone;
 var REVIEWS_URL = 'http://o0.github.io/assets/json/reviews.json';
 var PAGE_SIZE = 3;
 var pageNumber = 0;
+var currentId;
 
 if ('content' in reviewTemplate) {
   elementToClone = reviewTemplate.content.querySelector('.review');
@@ -161,7 +162,10 @@ var setFilterEnabled = function(filter) {
 var setFiltrationEnabled = function() {
   filtersContainer.addEventListener('click', function(evt) {
     if (evt.target.id) {
+      if (currentId !== evt.target.id) {
       setFilterEnabled(evt.target.id);
+      currentId = evt.target.id;
+      }
     }
   });
 };
