@@ -141,7 +141,6 @@ var renderReviews = function(reviewsList, page, replace) {
   if (reviewsList.length === 0) {
     nothingFoundTemplate();
   }
-
   toggleReviewsButton(isNextPageAvailable(reviewsList, page, PAGE_SIZE));
 };
 
@@ -161,7 +160,7 @@ var setFilterEnabled = function(filter) {
 
 var setFiltrationEnabled = function() {
   filtersContainer.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('reviews-filter-item')) {
+    if (evt.target.id) {
       setFilterEnabled(evt.target.id);
     }
   });
