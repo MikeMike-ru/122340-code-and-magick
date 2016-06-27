@@ -136,21 +136,21 @@ var renderReviews = function(replace) {
   var from = pageNumber * PAGE_SIZE;
   var to = from + PAGE_SIZE;
 
-  reviewsList.slice(from, to).forEach(function(review) {
+  filteredReviews.slice(from, to).forEach(function(review) {
     createReviewElement(review);
   });
-  if (reviewsList.length === 0) {
+  if (filteredReviews.length === 0) {
     nothingFoundTemplate();
   }
-  toggleReviewsButton(isNextPageAvailable(reviewsList, pageNumber, PAGE_SIZE));
+  toggleReviewsButton(isNextPageAvailable(PAGE_SIZE));
 };
 
 var toggleReviewsButton = function(flag) {
   moreReviewsButton.classList.toggle('invisible', !flag);
 };
 
-var isNextPageAvailable = function(reviewsList, page, pageSize) {
-  return page < ( Math.ceil(reviewsList.length / pageSize) - 1 );
+var isNextPageAvailable = function(pageSize) {
+  return pageNumber < ( Math.ceil(filteredReviews.length / pageSize) - 1 );
 };
 
 var setFilterEnabled = function(filter) {
