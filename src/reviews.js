@@ -163,8 +163,8 @@ var setFiltrationEnabled = function() {
   filtersContainer.addEventListener('click', function(evt) {
     if (evt.target.id) {
       if (currentId !== evt.target.id) {
-      setFilterEnabled(evt.target.id);
-      currentId = evt.target.id;
+        setFilterEnabled(evt.target.id);
+        currentId = evt.target.id;
       }
     }
   });
