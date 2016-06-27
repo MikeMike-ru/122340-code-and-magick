@@ -127,8 +127,10 @@ var nothingFoundTemplate = function() {
   toggleReviewsButton(false);
 };
 
-var renderReviews = function(reviewsList, page) {
-  reviewsContainer.innerHTML = '';
+var renderReviews = function(reviewsList, page, replace) {
+  if (replace) {
+    reviewsContainer.innerHTML = '';
+  }
 
   var from = page * PAGE_SIZE;
   var to = from + PAGE_SIZE;
@@ -159,7 +161,7 @@ moreReviewsButton.onclick = function() {
 var setFilterEnabled = function(filter) {
   filteredReviews = getFilteredReviews(filter);
   pageNumber = 0;
-  renderReviews(filteredReviews, pageNumber);
+  renderReviews(filteredReviews, pageNumber, true);
 };
 
 var setFiltrationEnabled = function() {
