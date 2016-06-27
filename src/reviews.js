@@ -166,10 +166,10 @@ var setFiltrationEnabled = function() {
   });
 };
 
-moreReviewsButton.onclick = function() {
+moreReviewsButton.addEventListener('click', function() {
   pageNumber++;
   renderReviews(filteredReviews, pageNumber, false);
-};
+});
 
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
