@@ -153,11 +153,6 @@ var isNextPageAvailable = function(reviewsList, page, pageSize) {
   return page < ( Math.ceil(reviewsList.length / pageSize) - 1 );
 };
 
-moreReviewsButton.onclick = function() {
-  pageNumber++;
-  renderReviews(filteredReviews, pageNumber, false);
-};
-
 var setFilterEnabled = function(filter) {
   filteredReviews = getFilteredReviews(filter);
   pageNumber = 0;
@@ -172,10 +167,15 @@ var setFiltrationEnabled = function() {
   });
 };
 
+moreReviewsButton.onclick = function() {
+  pageNumber++;
+  renderReviews(filteredReviews, pageNumber, false);
+};
+
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFiltrationEnabled();
-  renderReviews(reviews, pageNumber);
+  setFilterEnabled();
 });
 
 filtersContainer.classList.remove('invisible');
