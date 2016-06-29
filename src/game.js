@@ -722,20 +722,24 @@
   game.setGameStatus(window.Game.Verdict.INTRO);
 
   var THROTTLE_DELAY = 100;
+  var cloudsVisible;
   var cloudsElement = document.querySelector('.header-clouds');
   cloudsElement.style.backgroundPosition = 0 + 'px';
 
   var isGameVisible = function() {
     if (window.pageYOffset < 400) {
       game.setGameStatus(Game.Verdict.CONTINUE);
-      moveClouds();
+      cloudsVisible = true;
     } else {
       game.setGameStatus(Game.Verdict.PAUSE);
+      cloudsVisible = false;
     }
   };
 
   var moveClouds = function() {
+    if (cloudsVisible) {
     cloudsElement.style.backgroundPosition = window.pageYOffset / 2 + 'px';
+    }
   };
 
   var setScrollEnabled = function() {
@@ -745,6 +749,7 @@
         isGameVisible();
         lastCall = Date.now();
       }
+      moveClouds();
     });
   };
 
