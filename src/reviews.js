@@ -149,8 +149,8 @@ var toggleReviewsButton = function(flag) {
   moreReviewsButton.classList.toggle('invisible', !flag);
 };
 
-var isNextPageAvailable = function(pageSize) {
-  return pageNumber < ( Math.ceil(filteredReviews.length / pageSize) - 1 );
+var isNextPageAvailable = function() {
+  return pageNumber < ( Math.ceil(filteredReviews.length / PAGE_SIZE) - 1 );
 };
 
 var setFilterEnabled = function(filter) {
