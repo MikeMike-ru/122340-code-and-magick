@@ -724,12 +724,10 @@
   var THROTTLE_DELAY = 100;
   var cloudsVisible;
   var cloudsElement = document.querySelector('.header-clouds');
-  var gameBlock = document.querySelector('.demo');
   cloudsElement.style.backgroundPosition = 0 + 'px';
 
   var isGameVisible = function() {
-    console.log(gameBlock.getBoundingClientRect().top);
-    if (gameBlock.getBoundingClientRect().top > 0) {
+    if (cloudsElement.getBoundingClientRect().bottom > 0) {
       game.setGameStatus(Game.Verdict.CONTINUE);
       cloudsVisible = true;
     } else {
