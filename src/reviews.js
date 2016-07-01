@@ -28,14 +28,14 @@
   filtersContainer.classList.add('invisible');
   reviewBlock.classList.add('reviews-list-loading');
 
-  var createReviewElement = function (data) {
+  var createReviewElement = function(data) {
     var element = elementToClone.cloneNode(true);
     element.querySelector('.review-text').textContent = data.description;
     element.querySelector('.review-rating').classList.add(starsArray[+data.rating - 1]);
 
     var authorImage = new Image();
 
-    authorImage.onload = function () {
+    authorImage.onload = function() {
       var authorBoth = element.querySelector('.review-author');
       authorBoth.src = data.author.picture;
       authorBoth.alt = data.author.name;
@@ -43,7 +43,7 @@
       authorBoth.height = '124';
     };
 
-    authorImage.onerror = function () {
+    authorImage.onerror = function() {
       element.classList.add('review-load-failure');
     };
 
@@ -52,7 +52,7 @@
     reviewsContainer.appendChild(element);
   };
 
-  var nothingFoundTemplate = function () {
+  var nothingFoundTemplate = function() {
     var nothingInHere = document.createElement('p');
     nothingInHere.style.setProperty('margin-left', '110px');
     nothingInHere.textContent = 'К сожалению, нет подходящих отзывов.';
@@ -60,7 +60,7 @@
     toggleReviewsButton(false);
   };
 
-  var renderReviews = function (replace) {
+  var renderReviews = function(replace) {
     if (replace) {
       reviewsContainer.innerHTML = '';
     }
@@ -68,7 +68,7 @@
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
 
-    filteredReviews.slice(from, to).forEach(function (review) {
+    filteredReviews.slice(from, to).forEach(function(review) {
       createReviewElement(review);
     });
     if (filteredReviews.length === 0) {
@@ -77,22 +77,22 @@
     toggleReviewsButton(isNextPageAvailable(PAGE_SIZE));
   };
 
-  var toggleReviewsButton = function (flag) {
+  var toggleReviewsButton = function(flag) {
     moreReviewsButton.classList.toggle('invisible', !flag);
   };
 
-  var isNextPageAvailable = function () {
+  var isNextPageAvailable = function() {
     return pageNumber < ( Math.ceil(filteredReviews.length / PAGE_SIZE) - 1 );
   };
 
-  var setFilterEnabled = function (filter) {
+  var setFilterEnabled = function(filter) {
     filteredReviews = getFilteredReviews(filter, reviews);
     pageNumber = 0;
     renderReviews(true);
   };
 
-  var setFiltrationEnabled = function () {
-    filtersContainer.addEventListener('click', function (evt) {
+  var setFiltrationEnabled = function() {
+    filtersContainer.addEventListener('click', function(evt) {
       if (evt.target.id && currentId !== evt.target.id) {
         setFilterEnabled(evt.target.id);
         currentId = evt.target.id;
@@ -100,12 +100,12 @@
     });
   };
 
-  moreReviewsButton.addEventListener('click', function () {
+  moreReviewsButton.addEventListener('click', function() {
     pageNumber++;
     renderReviews(false);
   });
 
-  load(REVIEWS_URL, reviewBlock, function (loadedReviews) {
+  load(REVIEWS_URL, reviewBlock, function(loadedReviews) {
     reviewBlock.classList.remove('reviews-list-loading');
     reviews = loadedReviews;
     setFiltrationEnabled();
