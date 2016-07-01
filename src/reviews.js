@@ -1,6 +1,7 @@
 'use strict';
 
 var load = require('./xhr');
+var getFilteredReviews = require('./filter/filter_switch');
 
 var reviews = [];
 var filteredReviews = [];
@@ -56,50 +57,6 @@ var createReviewElement = function(data) {
   reviewsContainer.appendChild(element);
 };
 
-var onEventFunction = function() {
-  reviewBlock.classList.remove('reviews-list-loading');
-  reviewBlock.classList.add('reviews-load-failure');
-};
-
-var getFilteredReviews = function(filter) {
-  var reviewsToFilter = reviews.slice(0);
-
-  switch (filter) {
-    case 'reviews-all':
-      reviewsToFilter = reviews.slice(0);
-      break;
-    case 'reviews-recent':
-      reviewsToFilter = reviewsToFilter.filter(function(review) {
-        var fourDays = Date.now() - 4 * 24 * 60 * 60 * 1000;
-        var reviewDate = Date.parse(review.date);
-        return reviewDate > fourDays && Date.now() > reviewDate;
-      }).sort(function(a, b) {
-        return Date.parse(b.date) - Date.parse(a.date);
-      });
-      break;
-    case 'reviews-good':
-      reviewsToFilter = reviewsToFilter.filter(function(review) {
-        return review.rating > 2;
-      }).sort(function(a, b) {
-        return b.rating - a.rating;
-      });
-      break;
-    case 'reviews-bad':
-      reviewsToFilter = reviewsToFilter.filter(function(review) {
-        return review.rating < 3;
-      }).sort(function(a, b) {
-        return a.rating - b.rating;
-      });
-      break;
-    case 'reviews-popular':
-      reviewsToFilter = reviewsToFilter.sort(function(a, b) {
-        return b.review_usefulness - a.review_usefulness;
-      });
-      break;
-  }
-  return reviewsToFilter;
-};
-
 var nothingFoundTemplate = function() {
   var nothingInHere = document.createElement('p');
   nothingInHere.style.setProperty('margin-left', '110px');
@@ -134,7 +91,7 @@ var isNextPageAvailable = function() {
 };
 
 var setFilterEnabled = function(filter) {
-  filteredReviews = getFilteredReviews(filter);
+  filteredReviews = getFilteredReviews(filter, reviews);
   pageNumber = 0;
   renderReviews(true);
 };
@@ -153,7 +110,7 @@ moreReviewsButton.addEventListener('click', function() {
   renderReviews(false);
 });
 
-load(REVIEWS_URL, function(loadedReviews) {
+load(REVIEWS_URL, reviewBlock, function(loadedReviews) {
   reviewBlock.classList.remove('reviews-list-loading');
   reviews = loadedReviews;
   setFiltrationEnabled();
