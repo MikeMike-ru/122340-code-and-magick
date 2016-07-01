@@ -1,7 +1,6 @@
 'use strict';
 
 (function() {
-  var load = require('./xhr');
   var utils = require('./utils');
   var getFilteredReviews = require('./filter/filter_switch');
 
@@ -50,6 +49,33 @@
     authorImage.src = data.author.picture;
 
     reviewsContainer.appendChild(element);
+  };
+
+  var getReviews = function(callback) {
+    var xhr = new XMLHttpRequest();
+
+    var onEventFunction = function() {
+      reviewBlock.classList.remove('reviews-list-loading');
+      reviewBlock.classList.add('reviews-load-failure');
+    };
+
+    xhr.onload = function(evt) {
+      reviewBlock.classList.remove('reviews-list-loading');
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
+    };
+
+    xhr.onerror = function() {
+      onEventFunction();
+    };
+
+    xhr.timeout = 10000;
+    xhr.ontimeout = function() {
+      onEventFunction();
+    };
+
+    xhr.open('GET', REVIEWS_URL);
+    xhr.send();
   };
 
   var nothingFoundTemplate = function() {
@@ -105,7 +131,7 @@
     renderReviews(false);
   });
 
-  load(REVIEWS_URL, reviewBlock, function(loadedReviews) {
+  getReviews(function(loadedReviews) {
     reviewBlock.classList.remove('reviews-list-loading');
     reviews = loadedReviews;
     setFiltrationEnabled();
