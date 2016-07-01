@@ -1,5 +1,7 @@
 'use strict';
 
+var load = require('./xhr');
+
 var reviews = [];
 var filteredReviews = [];
 var reviewTemplate = document.getElementById('review-template');
@@ -57,28 +59,6 @@ var createReviewElement = function(data) {
 var onEventFunction = function() {
   reviewBlock.classList.remove('reviews-list-loading');
   reviewBlock.classList.add('reviews-load-failure');
-};
-
-var getReviews = function(callback) {
-  var xhr = new XMLHttpRequest();
-
-  xhr.onload = function(evt) {
-    reviewBlock.classList.remove('reviews-list-loading');
-    var loadedData = JSON.parse(evt.target.response);
-    callback(loadedData);
-  };
-
-  xhr.onerror = function() {
-    onEventFunction();
-  };
-
-  xhr.timeout = 10000;
-  xhr.ontimeout = function() {
-    onEventFunction();
-  };
-
-  xhr.open('GET', REVIEWS_URL);
-  xhr.send();
 };
 
 var getFilteredReviews = function(filter) {
@@ -173,7 +153,8 @@ moreReviewsButton.addEventListener('click', function() {
   renderReviews(false);
 });
 
-getReviews(function(loadedReviews) {
+load(REVIEWS_URL, function(loadedReviews) {
+  reviewBlock.classList.remove('reviews-list-loading');
   reviews = loadedReviews;
   setFiltrationEnabled();
   setFilterEnabled();
